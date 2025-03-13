@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using company.G03.DAL.Data.Context;
+using company.G03.BLL.Repository;
 namespace company.G03
 {
     public class Program
@@ -8,7 +11,11 @@ namespace company.G03
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<DeptRepository>();
+            builder.Services.AddDbContext<CompanyDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
