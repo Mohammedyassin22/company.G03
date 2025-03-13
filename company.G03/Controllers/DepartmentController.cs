@@ -21,10 +21,6 @@ namespace company.G03.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            if (ModelState.IsValid)
-            {
-
-            }
             return View();
         }
         [HttpPost]
@@ -45,6 +41,22 @@ namespace company.G03.PL.Controllers
                 }
             }
             return View(dto);
+        }
+       
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+           var dept= _deptRepository.Get(id);
+            if(dept == null) {
+                return NotFound();
+            }
+            var model = new CreateDeptDto
+            {
+                Name = dept.Name,
+                Code = dept.Code,
+                CreateAt = dept.CreateAt
+            };
+            return View(model);
         }
     }
 }
