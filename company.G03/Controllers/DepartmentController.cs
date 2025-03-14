@@ -74,10 +74,13 @@ namespace company.G03.PL.Controllers
             return View(dept);
         }
         [HttpPost]
-        public IActionResult Edit(Department department)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute]int id,Department department)
         {
             if(ModelState.IsValid)
             {
+                if (id != department.Id)
+                    return BadRequest();
                 var dept=_deptRepository.Update(department);
                 if (dept > 0)
                 {
@@ -85,6 +88,38 @@ namespace company.G03.PL.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                
+            }
+            return View(department);
+        }
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id is null)
+            {
+                return BadRequest("is valid");
+            }
+            var dept = _deptRepository.Get(id.Value);
+            if (dept == null)
+            {
+                return NotFound(new { Message = "Department with id is not found" });
+            }
+            return View(dept);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete([FromRoute] int id, Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id != department.Id)
+                    return BadRequest();
+                var dept = _deptRepository.Delete(department);
+                if (dept > 0)
+                {
+                    TempData["SuccessMessage"] = "Section Deleted successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
+
             }
             return View(department);
         }
