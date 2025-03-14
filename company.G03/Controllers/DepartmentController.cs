@@ -2,6 +2,7 @@
 using company.G03.DAL.Models;
 using company.G03.PL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace company.G03.PL.Controllers
 {
@@ -37,6 +38,7 @@ namespace company.G03.PL.Controllers
                 var count=_deptRepository.Add(dept);
                 if(count > 0)
                 {
+                    TempData["SuccessMessage"] = "Section Added successfully!";
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -44,19 +46,47 @@ namespace company.G03.PL.Controllers
         }
        
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
-           var dept= _deptRepository.Get(id);
-            if(dept == null) {
-                return NotFound();
-            }
-            var model = new CreateDeptDto
+           if(id is null)
             {
-                Name = dept.Name,
-                Code = dept.Code,
-                CreateAt = dept.CreateAt
-            };
-            return View(model);
+                return BadRequest("is valid");
+            }
+            var dept = _deptRepository.Get(id.Value);
+            if(dept == null)
+            {
+                return NotFound(new{Message="Department with id is not found"});
+            }
+            return View(dept);
+        }
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if(id is null)
+            {
+                return BadRequest("is valid");
+            }
+            var dept =_deptRepository.Get(id.Value);
+            if (dept == null)
+            {
+                return NotFound(new { Message = "Department with id is not found" });
+            }
+            return View(dept);
+        }
+        [HttpPost]
+        public IActionResult Edit(Department department)
+        {
+            if(ModelState.IsValid)
+            {
+                var dept=_deptRepository.Update(department);
+                if (dept > 0)
+                {
+                    TempData["SuccessMessage"] = "Section modified successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
+               
+            }
+            return View(department);
         }
     }
 }
