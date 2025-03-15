@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace company.G03.DAL.Models
 {
-    public class Department:BaseEntity
+    public class BaseEntity
     {
-        public string Name { get; set; }
-        public String Code { get; set; }
-        public DateTime CreateAt { get; set; }
+        public int Id { get; set; }
     }
 }
