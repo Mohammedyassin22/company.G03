@@ -17,5 +17,6 @@ namespace company.G03.DAL.Data.Context
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public DbSet<Department> Departments {  get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }
