@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using company.G03.DAL.Data.Context;
 using company.G03.BLL.Repository;
+using company.G03.BLL.Interface;
 namespace company.G03
 {
     public class Program
@@ -16,6 +17,7 @@ namespace company.G03
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddScoped<IEmpRepository,EmpRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
