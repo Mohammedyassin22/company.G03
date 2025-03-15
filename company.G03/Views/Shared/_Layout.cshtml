@@ -1,12 +1,25 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="~/css/dark-mode.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/company.G03.styles.css" asp-append-version="true">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - company.G03</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/company.G03.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/company.G03.styles.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/dark-mode.css" />
+    <head>
+        <script>
+            if (localStorage.getItem("dark-mode") === "enabled") {
+                document.documentElement.classList.add("dark-mode");
+                document.body.style.backgroundColor = "#0a192f"; // لون كحلي غامق
+                document.body.style.color = "#ffffff"; // لون النص أبيض
+            }
+        </script>
+    </head>
+
 </head>
 <body>
     <header>
@@ -41,6 +54,11 @@
             @RenderBody()
         </main>
     </div>
+    <!-- زر تبديل الوضع الداكن -->
+    <button id="toggleDarkMode" class="btn btn-secondary">🌙</button>
+
+    <!-- تضمين ملف الجافاسكريبت -->
+    <script src="~/js/dark-mode.js"></script>
 
     <footer class="border-top footer text-muted">
         <div class="container">
