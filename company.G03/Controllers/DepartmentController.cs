@@ -24,6 +24,7 @@ namespace company.G03.PL.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(CreateDeptDto dto)
         {
@@ -46,7 +47,7 @@ namespace company.G03.PL.Controllers
         }
        
         [HttpGet]
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id,string ViewName)
         {
            if(id is null)
             {
@@ -57,22 +58,15 @@ namespace company.G03.PL.Controllers
             {
                 return NotFound(new{Message="Department with id is not found"});
             }
-            return View(dept);
+            return View(ViewName, dept);
         }
+
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if(id is null)
-            {
-                return BadRequest("is valid");
-            }
-            var dept =_deptRepository.Get(id.Value);
-            if (dept == null)
-            {
-                return NotFound(new { Message = "Department with id is not found" });
-            }
-            return View(dept);
+            return Details(id, "Edit");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute]int id,Department department)
@@ -91,20 +85,13 @@ namespace company.G03.PL.Controllers
             }
             return View(department);
         }
+
         [HttpGet]
         public IActionResult Delete(int? id)
         {
-            if (id is null)
-            {
-                return BadRequest("is valid");
-            }
-            var dept = _deptRepository.Get(id.Value);
-            if (dept == null)
-            {
-                return NotFound(new { Message = "Department with id is not found" });
-            }
-            return View(dept);
+            return Details(id,"Delete");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete([FromRoute] int id, Department department)
