@@ -10,15 +10,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/company.G03.styles.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/dark-mode.css" />
-    <head>
-        <script>
-            if (localStorage.getItem("dark-mode") === "enabled") {
-                document.documentElement.classList.add("dark-mode");
-                document.body.style.backgroundColor = "#0a192f"; // لون كحلي غامق
-                document.body.style.color = "#ffffff"; // لون النص أبيض
-            }
-        </script>
-    </head>
 
 </head>
 <body>
@@ -69,5 +60,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
