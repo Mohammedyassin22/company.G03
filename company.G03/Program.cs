@@ -29,6 +29,7 @@ namespace company.G03
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
