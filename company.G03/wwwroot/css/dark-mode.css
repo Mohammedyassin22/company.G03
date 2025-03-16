@@ -1,14 +1,20 @@
 ﻿.dark-mode {
     background-color: #0a192f !important; /* لون كحلي غامق */
-    color: #ffffff !important;
+    color: wheat;
+}
+body.dark-mode {
+    background-color: #121212; /* خلفية داكنة */
+    color: white; /* لون النص أبيض */
+}
+
+/* تغيير لون الخلفية للـ Navbar */
+.dark-mode .navbar {
+    background-color: #112240 !important; /* لون خلفية غامق */
+    border-bottom: 1px solid #444 !important; /* لون الحدود */
 }
 
     .dark-mode a {
         color: #ffffff !important;
-    }
-
-    .dark-mode .navbar {
-        background-color: #102a43 !important; /* لون أزرق داكن */
     }
 
     .dark-mode .container,
@@ -28,4 +34,14 @@
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.dark-mode table tr,
+.dark-mode table tr:nth-child(even),
+.dark-mode table tr:nth-child(odd) { /* لون أبيض لكل الصفوف */
+    color: white; /* لون النص داكن */
+    .dark-mode .navbar
+
+{
+    background-color: #102a43 !important; /* لون أزرق داكن */
 }
