@@ -17,6 +17,7 @@ namespace company.G03.PL.Controllers
         public IActionResult Index()
         {
            var model= _deptRepository.GetAll();
+            ViewData["Message"] = $"the number of employees is {model.Count()}";
             return View(model);
         }
         [HttpGet]
