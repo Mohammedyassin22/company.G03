@@ -23,5 +23,6 @@ namespace company.G03.PL.Models
         public DateTime HiringDate { get; set; }
         [DisplayName("Create At is Required!!!")]
         public DateTime CreateAt { get; set; }
+        public int? DepartmentID { get; set; }
     }
 }
