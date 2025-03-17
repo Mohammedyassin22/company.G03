@@ -1,4 +1,5 @@
-﻿using company.G03.BLL.Repository;
+﻿using company.G03.BLL.Interface;
+using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
 using company.G03.PL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,22 @@ namespace company.G03.PL.Controllers
             _deptRepository = deptRepository;
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string? searchInput)
         {
-           var model= _deptRepository.GetAll();
-            ViewData["Message"] = $"the number of employees is {model.Count()}";
-            return View(model);
+            IEnumerable<Department> dept;
+
+            if (string.IsNullOrEmpty(searchInput))
+            {
+                dept = _deptRepository.GetAll();
+            }
+            else
+            {
+                dept = _deptRepository.GetName(searchInput);
+            }
+
+            ViewData["Message"] = $"The number of employees is {dept.Count()}";
+
+            return View(dept);
         }
         [HttpGet]
         public IActionResult Create()
