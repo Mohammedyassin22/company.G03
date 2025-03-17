@@ -5,7 +5,22 @@
 
 <h1>Employee</h1>
 <br />
-
+<br />
+<form method="get">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <input id="searchInput" placeholder="Search by name" name="searchInput" class="form-control" />
+            </div>
+            <div class="col-6">
+                <input type="submit" class="btn btn-success" value="Search" />
+            </div>
+        </div>
+    </div>
+</form>
+<br />
+<script src="~/js/site.js"></script>
+<br />
 <a asp-action="Create" asp-controller="Employee" class="btn btn-danger">Create Employee</a>
 
 <br />

@@ -17,12 +17,24 @@ namespace company.G03.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string? searchInput)
         {
-            var model = _empRepository.GetAll();
-            ViewData["Message"] = $"the number of employees is {model.Count()}";
-            return View(model);
+            IEnumerable<Employee> emp;
+
+            if (string.IsNullOrEmpty(searchInput))
+            {
+                emp = _empRepository.GetAll();
+            }
+            else
+            {
+                emp = _empRepository.GetName(searchInput);
+            }
+
+            ViewData["Message"] = $"The number of employees is {emp.Count()}";
+
+            return View(emp);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -108,20 +120,22 @@ namespace company.G03.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute] int id, Employee employee)
+        public IActionResult Delete([FromRoute] int id)
         {
-            if (ModelState.IsValid)
+            var employee = _empRepository.Get(id);
+            if (employee == null)
             {
-                if (id != employee.Id)
-                    return BadRequest();
-                var emp = _empRepository.Delete(employee);
-                if (emp > 0)
-                {
-                    TempData["SuccessMessage"] = "Section Deleted successfully!";
-                    return RedirectToAction(nameof(Index));
-                }
-
+                return NotFound();
             }
+
+            var result = _empRepository.Delete(employee);
+            if (result > 0)
+            {
+                TempData["SuccessMessage"] = "Employee deleted successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["ErrorMessage"] = "Failed to delete employee.";
             return View(employee);
         }
     }
