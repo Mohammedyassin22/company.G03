@@ -40,3 +40,9 @@
     <input readonly asp-for="CreateAt" class="form-control" />
     <span asp-validation-for="CreateAt" class="text-danger"></span>
 </div>
+<div>
+    <label asp-for="Dept" class="col-form-label"></label>
+    <input asp-for="Dept.Name" class="form-control" readonly />
+    <span asp-validation-for="Dept" class="text-danger"></span>
+</div>
+<br />

@@ -13,6 +13,7 @@ namespace company.G03
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<DeptRepository>();
+            builder.Services.AddScoped<IDeptRepository, DeptRepository>();
             builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

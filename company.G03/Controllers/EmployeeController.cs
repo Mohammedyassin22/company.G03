@@ -9,9 +9,11 @@ namespace company.G03.PL.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmpRepository _empRepository;
-        public EmployeeController(IEmpRepository empRepository) 
+        private readonly IDeptRepository _deptRepository;
+        public EmployeeController(IEmpRepository empRepository,IDeptRepository deptRepository) 
         {
             _empRepository = empRepository;
+            _deptRepository = deptRepository;
         }
 
         [HttpGet]
@@ -24,6 +26,8 @@ namespace company.G03.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var dept = _deptRepository.GetAll();
+            ViewData["Department"]=dept;
             return View();
         }
 
@@ -43,6 +47,7 @@ namespace company.G03.PL.Controllers
                     Email=dto.Email,
                     IsActive=dto.IsActive,
                     Salary=dto.Salary,
+                    DepartmentID=dto.DepartmentID,
                 };
                 var count = _empRepository.Add(emp);
                 if (count > 0)
@@ -72,6 +77,7 @@ namespace company.G03.PL.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
+
             return Details(id, "Edit");
         }
 

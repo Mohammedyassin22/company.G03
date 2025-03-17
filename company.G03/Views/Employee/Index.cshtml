@@ -30,6 +30,7 @@
                 <th>IsActive</th>
                 <th>Hiring Date</th>
                 <th>Create At</th>
+                <th>DepartmentId</th>
             </tr>
         </thead>
         <tbody>
@@ -45,6 +46,15 @@
                     <td>@item.IsActive</td>
                     <td>@item.HiringDate</td>
                     <td>@Html.DisplayNameFor(x=>x.CreateAt)</td>
+                    @if(item.Dept is null)
+                    {
+
+                        <td style="font-size: 30px;"><pre> - </td>
+                    }
+                    else
+                    {
+                        <td>@item.Dept.Name</td>
+                    }
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger">Details</a>
                     </td>
