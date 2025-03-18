@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using company.G03.BLL;
 using company.G03.BLL.Interface;
 using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
@@ -10,11 +11,12 @@ namespace company.G03.PL.Controllers
 {
     public class DeptController : Controller
     {
-        private readonly DeptRepository _deptRepository;
+        //private readonly DeptRepository _deptRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public DeptController(DeptRepository deptRepository,IMapper mapper)
+        public DeptController(DeptRepository deptRepository,IMapper mapper,IUnitOfWork unitOfWork)
         {
-            _deptRepository = deptRepository;
+            _unitOfWork= unitOfWork;
             _mapper = mapper;
         }
         [HttpGet]
@@ -24,11 +26,11 @@ namespace company.G03.PL.Controllers
 
             if (string.IsNullOrEmpty(searchInput))
             {
-                dept = _deptRepository.GetAll();
+                dept = _unitOfWork.DeptRepository.GetAll();
             }
             else
             {
-                dept = _deptRepository.GetName(searchInput);
+                dept = _unitOfWork.DeptRepository.GetName(searchInput);
             }
 
             ViewData["Message"] = $"The number of employees is {dept.Count()}";
@@ -53,8 +55,9 @@ namespace company.G03.PL.Controllers
                 //    CreateAt = dto.CreateAt
                 //};
                 var dept=_mapper.Map<Department>(dto);
-                var count=_deptRepository.Add(dept);
-                if(count > 0)
+                 _unitOfWork.DeptRepository.Add(dept);
+                var count = _unitOfWork.Complete();
+                if (count > 0)
                 {
                     TempData["SuccessMessage"] = "Section Added successfully!";
                     return RedirectToAction(nameof(Index));
@@ -70,7 +73,7 @@ namespace company.G03.PL.Controllers
             {
                 return BadRequest("is valid");
             }
-            var dept = _deptRepository.Get(id.Value);
+            var dept = _unitOfWork.DeptRepository.Get(id.Value);
             if(dept == null)
             {
                 return NotFound(new{Message="Department with id is not found"});
@@ -92,7 +95,8 @@ namespace company.G03.PL.Controllers
             {
                 if (id != department.Id)
                     return BadRequest();
-                var dept=_deptRepository.Update(department);
+                _unitOfWork.DeptRepository.Update(department);
+                var dept = _unitOfWork.Complete();
                 if (dept > 0)
                 {
                     TempData["SuccessMessage"] = "Section modified successfully!";
@@ -117,7 +121,8 @@ namespace company.G03.PL.Controllers
             {
                 if (id != department.Id)
                     return BadRequest();
-                var dept = _deptRepository.Delete(department);
+                 _unitOfWork.DeptRepository.Delete(department);
+                var dept = _unitOfWork.Complete();
                 if (dept > 0)
                 {
                     TempData["SuccessMessage"] = "Section Deleted successfully!";

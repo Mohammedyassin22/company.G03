@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using company.G03.BLL;
 using company.G03.BLL.Interface;
 using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
@@ -9,13 +10,15 @@ namespace company.G03.PL.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmpRepository _empRepository;
-        private readonly IDeptRepository _deptRepository;
+        //private readonly IEmpRepository _empRepository;
+        //private readonly IDeptRepository _deptRepository;
+        private readonly IUnitOfWork _UnitOfWork;
         private readonly IMapper _mapper;
-        public EmployeeController(IEmpRepository empRepository,IDeptRepository deptRepository, IMapper mapper) 
+        public EmployeeController(IEmpRepository empRepository,IDeptRepository deptRepository, IMapper mapper,IUnitOfWork unitOfWork) 
         {
-            _empRepository = empRepository;
-            _deptRepository = deptRepository;
+            //_empRepository = empRepository;
+            //_deptRepository = deptRepository;
+            _UnitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -26,11 +29,11 @@ namespace company.G03.PL.Controllers
 
             if (string.IsNullOrEmpty(searchInput))
             {
-                emp = _empRepository.GetAll();
+                emp = _UnitOfWork.EmpRepository.GetAll();
             }
             else
             {
-                emp = _empRepository.GetName(searchInput);
+                emp = _UnitOfWork.EmpRepository.GetName(searchInput);
             }
 
             ViewData["Message"] = $"The number of employees is {emp.Count()}";
@@ -41,7 +44,7 @@ namespace company.G03.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var dept = _deptRepository.GetAll();
+            var dept = _UnitOfWork.DeptRepository.GetAll();
             ViewData["Department"]=dept;
             return View();
         }
@@ -65,7 +68,8 @@ namespace company.G03.PL.Controllers
                 //    DepartmentID=dto.DepartmentID,
                 //};
                 var emp=_mapper.Map<Employee>(dto);
-                var count = _empRepository.Add(emp);
+               _UnitOfWork.EmpRepository.Add(emp);
+                var count = _UnitOfWork.Complete();
                 if (count > 0)
                 {
                     TempData["SuccessMessage"] = "Section Added successfully!";
@@ -82,7 +86,7 @@ namespace company.G03.PL.Controllers
             {
                 return BadRequest("is valid");
             }
-            var emp = _empRepository.Get(id.Value);
+            var emp = _UnitOfWork.EmpRepository.Get(id.Value);
             if (emp == null)
             {
                 return NotFound(new { Message = "Employee with id is not found" });
@@ -105,7 +109,8 @@ namespace company.G03.PL.Controllers
             {
                 if (id != employee.Id)
                     return BadRequest();
-                var emp = _empRepository.Update(employee);
+                 _UnitOfWork.EmpRepository.Update(employee);
+                var emp = _UnitOfWork.Complete();
                 if (emp > 0)
                 {
                     TempData["SuccessMessage"] = "Section modified successfully!";
@@ -126,13 +131,14 @@ namespace company.G03.PL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete([FromRoute] int id)
         {
-            var employee = _empRepository.Get(id);
+            var employee = _UnitOfWork.EmpRepository.Get(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
-            var result = _empRepository.Delete(employee);
+           _UnitOfWork.EmpRepository.Delete(employee);
+            var result = _UnitOfWork.Complete();
             if (result > 0)
             {
                 TempData["SuccessMessage"] = "Employee deleted successfully!";
