@@ -3,15 +3,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<br />
-<br />
-<div class="m-3 p-2 alert alert-primary rounded-3 shadow-lg text-center w-25 mx-auto">
-    <p class="mb-0 fw-semibold">@ViewData["Message"]</p>
-</div>
-<br />
 <h1>Departments</h1>
 <br />
+
 <br />
 <form method="get">
     <div class="container">
@@ -25,6 +19,11 @@
         </div>
     </div>
 </form>
+<br />
+<br />
+<div class="m-3 p-2 alert alert-primary rounded-3 shadow-lg text-center w-25 mx-auto">
+    <p class="mb-0 fw-semibold">@ViewData["Message"]</p>
+</div>
 <br />
 <br />
 <a asp-action="Create" asp-controller="Dept" class="btn btn-danger">Create Department</a>
