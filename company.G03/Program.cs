@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using company.G03.DAL.Data.Context;
 using company.G03.BLL.Repository;
 using company.G03.BLL.Interface;
+using company.G03.PL.Mapping;
 namespace company.G03
 {
     public class Program
@@ -9,7 +10,8 @@ namespace company.G03
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+ builder.Services.AddAutoMapper(typeof(EmpProfile));
+            builder.Services.AddAutoMapper(typeof(DeptProfile));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<DeptRepository>();
@@ -20,7 +22,7 @@ namespace company.G03
             });
             builder.Services.AddScoped<IEmpRepository,EmpRepository>();
             var app = builder.Build();
-
+           
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

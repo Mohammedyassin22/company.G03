@@ -1,4 +1,5 @@
-﻿using company.G03.BLL.Interface;
+﻿using AutoMapper;
+using company.G03.BLL.Interface;
 using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
 using company.G03.PL.Models;
@@ -10,9 +11,11 @@ namespace company.G03.PL.Controllers
     public class DeptController : Controller
     {
         private readonly DeptRepository _deptRepository;
-        public DeptController(DeptRepository deptRepository)
+        private readonly IMapper _mapper;
+        public DeptController(DeptRepository deptRepository,IMapper mapper)
         {
             _deptRepository = deptRepository;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult Index(string? searchInput)
@@ -43,12 +46,13 @@ namespace company.G03.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var dept = new Department()
-                {
-                    Name = dto.Name,
-                    Code = dto.Code,
-                    CreateAt = dto.CreateAt
-                };
+                //var dept = new Department()
+                //{
+                //    Name = dto.Name,
+                //    Code = dto.Code,
+                //    CreateAt = dto.CreateAt
+                //};
+                var dept=_mapper.Map<Department>(dto);
                 var count=_deptRepository.Add(dept);
                 if(count > 0)
                 {

@@ -1,4 +1,5 @@
-﻿using company.G03.BLL.Interface;
+﻿using AutoMapper;
+using company.G03.BLL.Interface;
 using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
 using company.G03.PL.Models;
@@ -10,10 +11,12 @@ namespace company.G03.PL.Controllers
     {
         private readonly IEmpRepository _empRepository;
         private readonly IDeptRepository _deptRepository;
-        public EmployeeController(IEmpRepository empRepository,IDeptRepository deptRepository) 
+        private readonly IMapper _mapper;
+        public EmployeeController(IEmpRepository empRepository,IDeptRepository deptRepository, IMapper mapper) 
         {
             _empRepository = empRepository;
             _deptRepository = deptRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -48,19 +51,20 @@ namespace company.G03.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var emp = new Employee()
-                {
-                    Name = dto.Name,
-                    Phone=dto.Phone,
-                    Address=dto.Address,
-                    Age=dto.Age,
-                    HiringDate=dto.HiringDate,
-                    CreateAt=dto.CreateAt,
-                    Email=dto.Email,
-                    IsActive=dto.IsActive,
-                    Salary=dto.Salary,
-                    DepartmentID=dto.DepartmentID,
-                };
+                //var emp = new Employee()
+                //{
+                //    Name = dto.Name,
+                //    Phone=dto.Phone,
+                //    Address=dto.Address,
+                //    Age=dto.Age,
+                //    HiringDate=dto.HiringDate,
+                //    CreateAt=dto.CreateAt,
+                //    Email=dto.Email,
+                //    IsActive=dto.IsActive,
+                //    Salary=dto.Salary,
+                //    DepartmentID=dto.DepartmentID,
+                //};
+                var emp=_mapper.Map<Employee>(dto);
                 var count = _empRepository.Add(emp);
                 if (count > 0)
                 {
