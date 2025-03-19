@@ -1,3 +1,11 @@
 ﻿body {
     background-color: #f4f4f4;
 }
+.navbar .navbar-brand {
+    color: #ffffff !important; /* جعل النص أبيض */
+   /* font-weight: bold; *//* إضافة سماكة للنص */
+}
+
+    .navbar .navbar-brand:hover {
+        color: #a8c7ff !important; /* لون أزرق فاتح عند التمرير */
+    }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace company.G03.BLL
 {
-    public  interface IUnitOfWork:IDisposable
+    public  interface IUnitOfWork:IAsyncDisposable
     {
         IDeptRepository DeptRepository { get; }
         IEmpRepository EmpRepository { get; }
-        int Complete();
+        Task<int> Completeasync();
     }
 }
