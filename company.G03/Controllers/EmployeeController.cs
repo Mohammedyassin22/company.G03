@@ -3,8 +3,10 @@ using company.G03.BLL;
 using company.G03.BLL.Interface;
 using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
+using company.G03.PL.Helper;
 using company.G03.PL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace company.G03.PL.Controllers
 {
@@ -54,30 +56,31 @@ namespace company.G03.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var emp = new Employee()
-                //{
-                //    Name = dto.Name,
-                //    Phone=dto.Phone,
-                //    Address=dto.Address,
-                //    Age=dto.Age,
-                //    HiringDate=dto.HiringDate,
-                //    CreateAt=dto.CreateAt,
-                //    Email=dto.Email,
-                //    IsActive=dto.IsActive,
-                //    Salary=dto.Salary,
-                //    DepartmentID=dto.DepartmentID,
-                //};
-                var emp=_mapper.Map<Employee>(dto);
-               _UnitOfWork.EmpRepository.Add(emp);
+                // رفع الصورة إن وجدت وتخزين اسمها في `dto.ImageName`
+                if (dto.Iamge is not null)
+                {
+                    dto.ImageName = DocumentSetting.UploadFile(dto.Iamge, "Images");
+                }
+
+                // تحويل `dto` إلى `Employee`
+                var emp = _mapper.Map<Employee>(dto);
+
+                // حفظ اسم الصورة في `emp.Image`
+                emp.Image = dto.ImageName;
+
+                // إضافة الموظف إلى قاعدة البيانات
+                _UnitOfWork.EmpRepository.Add(emp);
                 var count = _UnitOfWork.Complete();
+
                 if (count > 0)
                 {
-                    TempData["SuccessMessage"] = "Section Added successfully!";
+                    TempData["SuccessMessage"] = "Employee added successfully!";
                     return RedirectToAction(nameof(Index));
                 }
             }
             return View(dto);
         }
+
 
         [HttpGet]
         public IActionResult Details(int? id, string ViewName)
@@ -94,32 +97,60 @@ namespace company.G03.PL.Controllers
             return View(ViewName, emp);
         }
 
-        [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
+            var employee = _UnitOfWork.EmpRepository.Get(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
 
-            return Details(id, "Edit");
+            // تحويل Employee إلى CreateEmpDto باستخدام AutoMapper
+            var model = _mapper.Map<CreateEmpDto>(employee);
+
+            return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, Employee employee)
+        public IActionResult Edit([FromRoute] int id, CreateEmpDto model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (id != employee.Id)
-                    return BadRequest();
-                 _UnitOfWork.EmpRepository.Update(employee);
-                var emp = _UnitOfWork.Complete();
-                if (emp > 0)
-                {
-                    TempData["SuccessMessage"] = "Section modified successfully!";
-                    return RedirectToAction(nameof(Index));
-                }
-
+                return View(model);
             }
-            return View(employee);
+
+            var employee = _UnitOfWork.EmpRepository.Get(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            // تحديث بيانات الموظف باستخدام AutoMapper
+            _mapper.Map(model, employee);
+
+            if (model.Iamge is not null)
+            {
+                if (!string.IsNullOrEmpty(employee.Image))
+                {
+                    DocumentSetting.Delete(employee.Image, "Images");
+                }
+                employee.Image = DocumentSetting.UploadFile(model.Iamge, "Images");
+            }
+
+            _UnitOfWork.EmpRepository.Update(employee);
+            var count = _UnitOfWork.Complete();
+
+            if (count > 0)
+            {
+                TempData["SuccessMessage"] = "Employee updated successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Delete(int? id)
@@ -129,7 +160,7 @@ namespace company.G03.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute] int id)
+        public IActionResult Delete([FromRoute] int id,CreateEmpDto dto)
         {
             var employee = _UnitOfWork.EmpRepository.Get(id);
             if (employee == null)
@@ -141,6 +172,10 @@ namespace company.G03.PL.Controllers
             var result = _UnitOfWork.Complete();
             if (result > 0)
             {
+                if(dto.ImageName is not null)
+                {
+                    DocumentSetting.Delete(dto.ImageName, "Images");
+                }
                 TempData["SuccessMessage"] = "Employee deleted successfully!";
                 return RedirectToAction(nameof(Index));
             }

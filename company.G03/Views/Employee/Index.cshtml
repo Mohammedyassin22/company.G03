@@ -46,6 +46,7 @@
                 <th>Hiring Date</th>
                 <th>Create At</th>
                 <th>DepartmentId</th>
+                <th>Image</th>
             </tr>
         </thead>
         <tbody>
@@ -70,6 +71,11 @@
                     {
                         <td>@item.Dept.Name</td>
                     }
+                    <td>
+                        <img src="~/files/Images/@item.Image" class="img-fluid"
+                             style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;" />
+                    </td>
+
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger">Details</a>
                     </td>

@@ -8,7 +8,7 @@ namespace company.G03.PL.Mapping
     {
         public EmpProfile() 
         {
-            CreateMap<CreateEmpDto, Employee>(); 
+            CreateMap<CreateEmpDto, Employee>().ReverseMap(); 
         }
 
     }
