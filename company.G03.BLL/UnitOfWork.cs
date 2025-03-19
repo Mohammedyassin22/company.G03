@@ -22,14 +22,21 @@ namespace company.G03.BLL
             EmpRepository=new EmpRepository(company);
         }
 
-        public int Complete()
+        public async Task<int> Complete()
         {
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
         }
 
-        public void Dispose()
+        
+
+        public async ValueTask DisposeAsync()
         {
-            _dbContext.Dispose();
+            await _dbContext.DisposeAsync();
+        }
+
+        public async Task<int> Completeasync()
+        {
+            return await _dbContext.SaveChangesAsync();
         }
     }
 }

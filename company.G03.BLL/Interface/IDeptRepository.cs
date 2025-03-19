@@ -9,6 +9,6 @@ namespace company.G03.BLL.Interface
 {
     public interface IDeptRepository:IGenericRepository<Department>
 {
-        List<Department> GetName(string name);
+        Task<List<Department>> GetNameasync(string name);
     }
 }

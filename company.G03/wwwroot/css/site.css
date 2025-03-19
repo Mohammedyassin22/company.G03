@@ -12,6 +12,7 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+
 html {
   position: relative;
   min-height: 100%;
@@ -20,4 +21,38 @@ html {
 body {
   margin-bottom: 60px;
 }
+.navbar {
+    background-color: #1B2A4E !important; /* ·Ê‰ ﬂÕ·Ì ›« Õ */
+    border-bottom: 2px solid #3c6ca8 !important; /* ·Ê‰ Õœ √› Õ ﬁ·Ì·« */
+}
 
+/*  Õ”Ì‰ ·Ê‰ «·‰’ */
+.navbar .nav-link {
+    color: #ffffff !important; /* ·Ê‰ «·‰’ √»Ì÷ */
+    font-weight: 500;
+}
+
+    .navbar .nav-link:hover {
+        color: #f5f5dc !important; /* ·Ê‰ √“—ﬁ ›« Õ ⁄‰œ «· „—Ì— */
+    }
+
+body {
+    background-color: #FFFFF0 !important; /*  €ÌÌ— ·Ê‰ «·Œ·›Ì… ·ﬂ· «·’›Õ«  */
+    color: #000 !important; /* ·Ê‰ «·‰’ «·√”Êœ ·÷„«‰ «·Ê÷ÊÕ */
+}
+#toggleDarkMode {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background: none; /* ≈“«·… «·Œ·›Ì… */
+    border: none; /* ≈“«·… «·ÕœÊœ */
+    padding: 5px; /*  ﬁ·Ì· «· »«⁄œ ·ÌﬂÊ‰ „ ‰«”ﬁ« */
+    font-size: 20px; /*  ﬂ»Ì— «·√ÌﬁÊ‰… */
+    cursor: pointer;
+    color: white; /* ÷„«‰ Ê÷ÊÕ «·√ÌﬁÊ‰… */
+}
+
+    #toggleDarkMode:hover {
+        color: #b0d0ff; /*  › ÌÕ «··Ê‰ ⁄‰œ «· „—Ì— */
+    }

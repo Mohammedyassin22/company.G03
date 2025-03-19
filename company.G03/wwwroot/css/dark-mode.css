@@ -1,28 +1,36 @@
-﻿.dark-mode {
-    background-color: #0a192f !important; /* لون كحلي غامق */
-    color: wheat;
-}
-body.dark-mode {
-    background-color: #121212; /* خلفية داكنة */
-    color: white; /* لون النص أبيض */
+﻿/* الوضع العادي */
+body {
+    background-color: #ffffff; /* لون خلفية أبيض */
+    color: #000000; /* لون نص أسود */
 }
 
-/* تغيير لون الخلفية للـ Navbar */
-.dark-mode .navbar {
-    background-color: #112240 !important; /* لون خلفية غامق */
-    border-bottom: 1px solid #444 !important; /* لون الحدود */
+/* الوضع الداكن - الصفحة بنفس لون الجدول */
+.dark-mode,
+.dark-mode body,
+.dark-mode .container,
+.dark-mode .content,
+.dark-mode .main-content,
+.dark-mode .card,
+.dark-mode .footer,
+.dark-mode .navbar,
+.dark-mode table,
+.dark-mode table tr,
+.dark-mode table th,
+.dark-mode table td,
+.dark-mode a,
+.dark-mode p,
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6,
+.dark-mode span {
+    background-color: #1a2b4d !important; /* لون خلفية الجدول في الوضع الداكن */
+    color: white !important; /* لون نص أبيض */
 }
 
-    .dark-mode a {
-        color: #ffffff !important;
-    }
-
-    .dark-mode .container,
-    .dark-mode .content,
-    .dark-mode .footer {
-        background-color: #0a192f !important;
-        color: #ffffff !important;
-    }
+/* زر تبديل الوضع الداكن */
 #toggleDarkMode {
     position: fixed;
     top: 10px; /* المسافة من الأعلى */
@@ -36,12 +44,6 @@ body.dark-mode {
     cursor: pointer;
 }
 
-.dark-mode table tr,
-.dark-mode table tr:nth-child(even),
-.dark-mode table tr:nth-child(odd) { /* لون أبيض لكل الصفوف */
-    color: white; /* لون النص داكن */
-    .dark-mode .navbar
-
-{
-    background-color: #102a43 !important; /* لون أزرق داكن */
+#toggleDarkMode:hover {
+    color: #b0d0ff !important;
 }

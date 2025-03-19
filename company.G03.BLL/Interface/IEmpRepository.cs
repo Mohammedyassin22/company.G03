@@ -9,6 +9,6 @@ namespace company.G03.BLL.Interface
 {
     public interface IEmpRepository:IGenericRepository<Employee>
     {
-         List<Employee> GetName (string name);
+         Task<List<Employee>> GetNameasync(string name);
     }
 }

@@ -25,17 +25,17 @@ namespace company.G03.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string? searchInput)
+        public async Task<IActionResult> Index(string? searchInput)
         {
             IEnumerable<Employee> emp;
 
             if (string.IsNullOrEmpty(searchInput))
             {
-                emp = _UnitOfWork.EmpRepository.GetAll();
+                emp =await _UnitOfWork.EmpRepository.GetAllasync();
             }
             else
             {
-                emp = _UnitOfWork.EmpRepository.GetName(searchInput);
+                emp =await _UnitOfWork.EmpRepository.GetNameasync(searchInput);
             }
 
             ViewData["Message"] = $"The number of employees is {emp.Count()}";
@@ -44,15 +44,15 @@ namespace company.G03.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var dept = _UnitOfWork.DeptRepository.GetAll();
+            var dept =await _UnitOfWork.DeptRepository.GetAllasync();
             ViewData["Department"]=dept;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(CreateEmpDto dto)
+        public async Task<IActionResult> Create(CreateEmpDto dto)
         {
             if (ModelState.IsValid)
             {
@@ -69,8 +69,8 @@ namespace company.G03.PL.Controllers
                 emp.Image = dto.ImageName;
 
                 // إضافة الموظف إلى قاعدة البيانات
-                _UnitOfWork.EmpRepository.Add(emp);
-                var count = _UnitOfWork.Complete();
+               await _UnitOfWork.EmpRepository.Addasync(emp);
+                var count =await _UnitOfWork.Completeasync();
 
                 if (count > 0)
                 {
@@ -83,13 +83,13 @@ namespace company.G03.PL.Controllers
 
 
         [HttpGet]
-        public IActionResult Details(int? id, string ViewName)
+        public async Task<IActionResult> Details(int? id, string ViewName)
         {
             if (id is null)
             {
                 return BadRequest("is valid");
             }
-            var emp = _UnitOfWork.EmpRepository.Get(id.Value);
+            var emp =await _UnitOfWork.EmpRepository.Getasync(id.Value);
             if (emp == null)
             {
                 return NotFound(new { Message = "Employee with id is not found" });
@@ -97,9 +97,9 @@ namespace company.G03.PL.Controllers
             return View(ViewName, emp);
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var employee = _UnitOfWork.EmpRepository.Get(id);
+            var employee =await _UnitOfWork.EmpRepository.Getasync(id);
             if (employee == null)
             {
                 return NotFound();
@@ -114,14 +114,14 @@ namespace company.G03.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, CreateEmpDto model)
+        public async Task<IActionResult> Edit([FromRoute] int id, CreateEmpDto model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            var employee = _UnitOfWork.EmpRepository.Get(id);
+            var employee =await _UnitOfWork.EmpRepository.Getasync(id);
             if (employee == null)
             {
                 return NotFound();
@@ -140,7 +140,7 @@ namespace company.G03.PL.Controllers
             }
 
             _UnitOfWork.EmpRepository.Update(employee);
-            var count = _UnitOfWork.Complete();
+            var count =await _UnitOfWork.Completeasync();
 
             if (count > 0)
             {
@@ -153,23 +153,23 @@ namespace company.G03.PL.Controllers
 
 
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return Details(id, "Delete");
+            return await Details(id, "Delete");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute] int id,CreateEmpDto dto)
+        public async Task<IActionResult> Delete([FromRoute] int id,CreateEmpDto dto)
         {
-            var employee = _UnitOfWork.EmpRepository.Get(id);
+            var employee =await _UnitOfWork.EmpRepository.Getasync(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
            _UnitOfWork.EmpRepository.Delete(employee);
-            var result = _UnitOfWork.Complete();
+            var result =await _UnitOfWork.Completeasync();
             if (result > 0)
             {
                 if(dto.ImageName is not null)

@@ -18,12 +18,12 @@ namespace company.G03.BLL.Repository
             _companyDbContext = context;
         }
 
-        public List<Department> GetName(string name)
+        public async Task<List<Department>> GetNameasync(string name)
         {
-            return _companyDbContext.Departments
+            return await _companyDbContext.Departments
          .Include(e => e.Emp)
          .Where(x => x.Name.ToLower().Contains(name.ToLower()))
-         .ToList();
+         .ToListAsync();
         }
     }
 }

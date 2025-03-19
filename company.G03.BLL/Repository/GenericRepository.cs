@@ -17,9 +17,9 @@ namespace company.G03.BLL.Repository
         {
             _context = context;
         }
-        public void Add(T model)
+        public async Task Addasync(T model)
         {
-            _context.Set<T>().Add(model);
+           await _context.AddAsync(model);
         }
 
         public void Delete(T model)
@@ -27,22 +27,22 @@ namespace company.G03.BLL.Repository
             _context.Set<T>().Remove(model);
         }
 
-        public T Get(int id)
+        public async  Task<T> Getasync(int id)
         {
             if (typeof(T) == typeof(Employee))
             {
-                return _context.Employees.Include(e => e.Dept).FirstOrDefault(e => e.Id==id) as T;
+                return await _context.Employees.Include(e => e.Dept).FirstOrDefaultAsync(e => e.Id==id) as T;
             }
                 return _context.Set<T>().Find(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public async  Task<IEnumerable<T>> GetAllasync()
         {
             if (typeof(T) == typeof(Employee))
             {
-                return (IEnumerable<T>)_context.Employees.Include(e=>e.Dept).ToList();
+                return (IEnumerable<T>)await _context.Employees.Include(e=>e.Dept).ToListAsync();
             }
-            return _context.Set<T>().ToList();
+            return await _context.Set<T>().ToListAsync();
         }
 
         public void Update(T model)
