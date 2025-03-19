@@ -8,7 +8,7 @@
 <h1>Create</h1>
 <br />
 <br />
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="my-3">
         <label asp-for="Name" class="col-form-label"></label>
         <input asp-for="Name" class="form-control" />
@@ -63,10 +63,16 @@
             <option value="">Select Department</option>
         </select>
     </Div>
+    <div class="my-3">
+        <label asp-for="Iamge" class="col-form-label"></label>
+        <input asp-for="Iamge" type="file" class="form-control" />
+    </div>
         <div class="my-3">
             <input type="submit" value="create" class="btn btn-danger" />
             <a asp-action="index" class="btn btn-primary">Back to list</a>
     </div>
+    </Div>
+    
 </form>
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

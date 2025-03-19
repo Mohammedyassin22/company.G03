@@ -24,5 +24,7 @@ namespace company.G03.PL.Models
         [DisplayName("Create At is Required!!!")]
         public DateTime CreateAt { get; set; }
         public int? DepartmentID { get; set; }
+        public string? ImageName {  get; set; }
+        public IFormFile? Iamge {  get; set; }
     }
 }
