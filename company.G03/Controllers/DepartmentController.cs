@@ -5,11 +5,13 @@ using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
 using company.G03.PL.Helper;
 using company.G03.PL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace company.G03.PL.Controllers
 {
+    [Authorize]
     public class DeptController : Controller
     {
         //private readonly DeptRepository _deptRepository;

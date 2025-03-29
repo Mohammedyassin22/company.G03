@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Account</title>
+
+    <link rel="stylesheet" href="~/css/AuthStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/slide-navbar-style.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="~/css/AuthStyle.css">
+    <script src="~/js/site.js"></script>
+    <!-- أضف في _Layout.cshtml -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @RenderSection("Styles", required: false)
+    <link rel="stylesheet" type="text/css" href="styles.css"> <!-- ملف CSS منفصل -->
+</head>
+<body>
+
+    <div class="main">
+       
+        @RenderBody()
+        @if (ViewData["SuccessMessage"] != null)
+        {
+            <div id="successAlert" class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg"
+                 role="alert" style="z-index: 1050; width: 50%;">
+                <strong>@ViewData["SuccessMessage"]</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div id="errorAlert" class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 shadow-lg"
+                 role="alert" style="z-index: 1050; width: 50%;">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <div>@error.ErrorMessage</div>
+                }
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <script>
+            // إخفاء الرسائل تلقائيًا بعد 3 ثوانٍ
+            setTimeout(function () {
+                let successAlert = document.getElementById("successAlert");
+                let errorAlert = document.getElementById("errorAlert");
+
+                if (successAlert) {
+                    successAlert.classList.remove("show");
+                    successAlert.classList.add("fade");
+                    setTimeout(() => successAlert.remove(), 500);
+                }
+
+                if (errorAlert) {
+                    errorAlert.classList.remove("show");
+                    errorAlert.classList.add("fade");
+                    setTimeout(() => errorAlert.remove(), 500);
+                }
+            }, 3000);
+        </script>
+
+
+        
+        
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+   
+
+    <script>
+        setTimeout(function () {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                setTimeout(() => alert.remove(), 500); // إزالة العنصر بعد انتهاء الأنيميشن
+            });
+        }, 3000);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <!-- في نهاية body قبل </body> -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

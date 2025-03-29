@@ -1,0 +1,48 @@
+﻿@model SignInDto
+@{
+    ViewData["Title"] = "SignIn";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/SignIn.css" asp-append-version="true">
+}
+
+<div class="SignIn">
+    <form asp-controller="Account" asp-action="SignIn" method="post">
+        <label for="chk" aria-hidden="true">SignIn</label>
+        <br />
+        
+        <div class="my-3">
+            <input class="text email" asp-for="Email" placeholder="Email" required>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="my-3">
+            <input class="text" asp-for="Password" placeholder="Password" required>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="checkbox-container">
+            <input asp-for="RememberMe" type="checkbox" id="agree" class="checkbox">
+            <label for="agree" class="checkbox-label">Remember me</label>
+        </div>
+
+
+       
+        <button>SignIn</button>
+        <p>Don't have an Account? <a href="/Account/SignUp">Sign Up</a></p>
+    </form>
+</div>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["SignUpSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SignUpSuccess"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}

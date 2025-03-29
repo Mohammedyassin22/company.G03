@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "Page Not Found";
+    Layout = null; <!-- إلغاء استخدام ملف Layout -->
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css?family=Anton|Passion+One|PT+Sans+Caption" rel="stylesheet">
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PT Sans Caption', sans-serif, Arial;
+        }
+
+        /* Main Error Container */
+        .error-page {
+            background: #fff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Animation Container */
+        .error-container {
+            position: relative;
+            height: 250px;
+            margin: 0 auto;
+        }
+
+        /* Digit Styles */
+        .digit {
+            width: 150px;
+            height: 150px;
+            line-height: 150px;
+            font-size: 120px;
+            font-weight: bold;
+            color: white;
+            background: #07B3F9;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            margin: 0 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Message Bubble */
+        .error-msg {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #535353;
+            color: #f8f8f8;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            font-size: 32px;
+            font-style: italic;
+            z-index: 10;
+        }
+
+        /* Triangle for Message Bubble */
+        .triangle {
+            position: absolute;
+            top: 70%;
+            right: -10px;
+            border-left: 20px solid #535353;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+        }
+
+        /* Text Styles */
+        .error-text {
+            margin-top: 30px;
+        }
+        .error-text h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .error-text p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .digit {
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+                font-size: 60px;
+                margin: 0 5px;
+            }
+            .error-container {
+                height: 150px;
+            }
+            .error-msg {
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                font-size: 24px;
+                top: -30px;
+            }
+            .triangle {
+                border-left: 10px solid #535353;
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+            }
+            .error-text h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-page">
+        <div class="container">
+            <div class="error-container">
+                <div class="digit" id="firstDigit">4</div>
+                <div class="digit" id="secondDigit">0</div>
+                <div class="digit" id="thirdDigit">4</div>
+                <div class="error-msg">OH!<span class="triangle"></span></div>
+            </div>
+            <div class="error-text">
+                <h1>Sorry! Page not found</h1>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Random Number Generator
+        function randomNum() {
+            return Math.floor(Math.random() * 9) + 1;
+        }
+
+        // Animation Function
+        function animateDigits() {
+            let counter = 0;
+            const digits = [
+                { element: document.getElementById('firstDigit'), final: 4, delay: 30 },
+                { element: document.getElementById('secondDigit'), final: 0, delay: 60 },
+                { element: document.getElementById('thirdDigit'), final: 4, delay: 90 }
+            ];
+
+            digits.forEach(digit => {
+                const interval = setInterval(() => {
+                    if (counter > digit.delay) {
+                        digit.element.textContent = digit.final;
+                        clearInterval(interval);
+                    } else {
+                        digit.element.textContent = randomNum();
+                        counter++;
+                    }
+                }, 30);
+            });
+        }
+
+        // Start animation when page loads
+        window.onload = animateDigits;
+    </script>
+</body>
+</html>

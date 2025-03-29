@@ -26,10 +26,22 @@
     <span asp-validation-for="Salary" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="IsActive" class="col-form-label"></label>
-    <input readonly asp-for="IsActive" class="form-control" />
+    <label class="col-form-label">Is Active</label>
+    <div class="d-flex">
+        <div class="form-check form-check-inline">
+            <input type="radio" asp-for="IsActive" class="form-check-input" value="true" id="isActiveYes" />
+            <label for="isActiveYes" class="form-check-label">YES</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input type="radio" asp-for="IsActive" class="form-check-input" value="false" id="isActiveNo" />
+            <label for="isActiveNo" class="form-check-label">NO</label>
+        </div>
+    </div>
+
     <span asp-validation-for="IsActive" class="text-danger"></span>
 </div>
+
 <div class="form-group">
     <label asp-for="HiringDate" class="col-form-label"></label>
     <input readonly asp-for="HiringDate" class="form-control" />
@@ -45,5 +57,4 @@
     <input asp-for="Dept.Name" class="form-control" readonly />
     <span asp-validation-for="Dept" class="text-danger"></span>
 </div>
-
 <br />

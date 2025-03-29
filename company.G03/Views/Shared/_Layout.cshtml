@@ -17,7 +17,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">company.G03</a>
+                <a class="navbar-brand" asp-controller="Account" asp-action="SignIn">Company</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,16 +28,28 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Dept" asp-action="Index">Department</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Employee" asp-action="Index">Employee</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">menu</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-controller="Account" asp-action="SignOut">Sign Out</a>
+                                <a class="dropdown-item" href="mailto:moyassin2252004@gmail.com?subject=Complaint&body=Dear Support,">
+                                    <i class="fas fa-envelope"></i> Complaints
+                                </a>
+                                <a class="dropdown-item" href="tel:12221" onclick="return confirm('سيتم الاتصال بخدمة العملاء على الرقم 12221. هل تريد المتابعة؟')">
+                                    <i class="fas fa-headset"></i> Contact Support (12221)
+                                </a>
+                            </div>
                         </li>
+                        </li>
+
                     </ul>
+                   
                 </div>
             </div>
         </nav>
@@ -49,17 +62,17 @@
     </div>
     <!-- زر تبديل الوضع الداكن -->
     <!-- زر الوضع الداكن -->
-    <button id="toggleDarkMode" class="btn">🌙</button>
+    <button id="toggleDarkMode" class="btn ">🌙</button>
 
 
     <!-- تضمين ملف الجافاسكريبت -->
     <script src="~/js/dark-mode.js"></script>
 
-    <footer class="border-top footer text-muted">
+   @*  <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - company.G03 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+             <a asp-area="" asp-controller="Home" asp-action="Privacy"></a>
         </div>
-    </footer>
+    </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

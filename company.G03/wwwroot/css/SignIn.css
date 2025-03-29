@@ -1,0 +1,105 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Jost', sans-serif;
+    background: #FFFFF0 !important;
+}
+
+.main {
+    width: 350px;
+    height: 520px;
+    overflow: hidden;
+    background: #1B2A4E;
+    box-shadow: 5px 20px 50px #000;
+}
+
+label {
+    color: #fff;
+    font-size: 2.3em;
+    justify-content: center;
+    display: flex;
+    margin: 50px;
+    font-weight: bold;
+    transition: .5s ease-in-out;
+}
+/*/ تنسيق الـ Checkbox ليكون أسفل الإدخالات /
+/ تنسيق حاوية الـ Checkbox /*/
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -50px auto;
+    width: 44%;
+}
+    /*
+    / تعديل الـ Checkbox /*/
+    .checkbox-container input {
+        width: 20px;
+        height: 16px;
+        margin-right: -45px;
+        cursor: pointer;
+    }
+/*/ تنسيق النص بجانب الـ Checkbox /*/
+.checkbox-label {
+    color: #DCAE96;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+input {
+    width: 60%;
+    height: 10px;
+    background: #e0dede;
+    justify-content: center;
+    display: flex;
+    margin: 20px auto;
+    padding: 12px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}
+
+button {
+    width: 50%;
+    height: 40px;
+    margin: 10px auto;
+    justify-content: center;
+    display: block;
+    color: #1B2A4E;
+    background: #FFFFF0 !important;
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 30px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    transition: .2s ease-in;
+    cursor: pointer;
+}
+
+    button:hover {
+        background: #6d44b8;
+    }
+/* لتغيير لون النص إلى الأبيض */
+.main p {
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+}
+
+    /* تنسيق رابط Sign Up */
+    .main p a {
+        color: #9CAF88; /* اللون الأبيض الافتراضي */
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+        /* تغيير اللون إلى كحلي عند التحويم */
+        .main p a:hover {
+            color: #808080; /* اللون الكحلي */
+        }
