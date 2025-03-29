@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace company.G03.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,10 +18,9 @@ namespace company.G03.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public IActionResult NotFound()
         {
-            return View();
+            return View("NotFound");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

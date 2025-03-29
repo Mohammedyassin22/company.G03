@@ -1,15 +1,18 @@
-﻿using AutoMapper;
+﻿ using AutoMapper;
 using company.G03.BLL;
 using company.G03.BLL.Interface;
 using company.G03.BLL.Repository;
 using company.G03.DAL.Models;
 using company.G03.PL.Helper;
 using company.G03.PL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace company.G03.PL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         //private readonly IEmpRepository _empRepository;
@@ -96,20 +99,24 @@ namespace company.G03.PL.Controllers
             }
             return View(ViewName, emp);
         }
-
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var employee =await _UnitOfWork.EmpRepository.Getasync(id);
+            var employee = await _UnitOfWork.EmpRepository.Getasync(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
+            var deptList = await _UnitOfWork.DeptRepository.GetAllasync();
+            ViewBag.Departments = new SelectList(deptList, "Id", "Name");
+
             // تحويل Employee إلى CreateEmpDto باستخدام AutoMapper
             var model = _mapper.Map<CreateEmpDto>(employee);
 
-            return View(model);
+            return View(model); // ✅ يجب تمرير `model` للعرض
         }
+
 
 
         [HttpPost]

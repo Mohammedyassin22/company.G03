@@ -40,12 +40,24 @@
             <input asp-for="Phone" class="form-control" />
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
-        
-    <div class="my-3">
-        <label asp-for="IsActive" class="col-form-label"></label>
-        <input asp-for="IsActive" class="form-control" />
+
+    <div class="form-group">
+        <label class="col-form-label">Is Active</label>
+        <div class="d-flex">
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="IsActive" class="form-check-input" value="true" id="isActiveYes" />
+                <label for="isActiveYes" class="form-check-label">YES</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input type="radio" asp-for="IsActive" class="form-check-input" value="false" id="isActiveNo" />
+                <label for="isActiveNo" class="form-check-label">NO</label>
+            </div>
+        </div>
+
         <span asp-validation-for="IsActive" class="text-danger"></span>
     </div>
+
 
     <div class="my-3">
         <label asp-for="HiringDate" class="col-form-label"></label>
