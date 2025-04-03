@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<RoleToReturnDto>
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,7 +13,7 @@
     </div>
 </div>
 <br />
-<a asp-action="Create" asp-controller="Employee" class="btn btn-danger">Create Employee</a>
+<a asp-action="Create" asp-controller="Role" class="btn btn-danger">Create Role </a>
 <br />
 <br />
 <p class="mb-0 fw-semibold">@ViewData["Message"]</p>
@@ -21,17 +21,8 @@
 <table class="table table-hover table-striped">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Name</th>
-            <th>Age</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Salary</th>
-            <th>Phone</th>
-            <th>IsActive</th>
-            <th>Hiring Date</th>
-            <th>Create At</th>
-            <th>Department</th>
-            <th>Image</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -39,36 +30,15 @@
         @foreach (var item in Model)
         {
             <tr class="employee-row"
-                data-search="@($"{item.Name} {item.Email} {item.Address} {item.Phone}".ToLower())">
-                <td>@item.Name</td>
-                <td>@item.Age</td>
-                <td>@item.Email</td>
-                <td>@item.Address</td>
-                <td>@item.Salary</td>
-                <td>@item.Phone</td>
-                <td>@item.IsActive</td>
-                <td>@item.HiringDate</td>
-                <td>@Html.DisplayFor(x => item.CreateAt)</td>
+                data-search="@($"{item.id} {item.name} ".ToLower())">
+                <td>@item.id</td>
+                <td>@item.name</td>
                 <td>
-                    @if (item.Dept is null)
-                    {
-                        <span>-</span>
-                    }
-                    else
-                    {
-                        @item.Dept.Name
-                    }
+                    <a asp-action="Details" asp-route-id="@item.id" class="btn btn-danger">Details</a>
                 </td>
-                <td>
-                    <img src="~/files/Images/@item.Image" class="img-fluid"
-                         style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;" />
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger">Details</a>
-                </td>
-                <td><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a></td>
+                <td><a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Update</a></td>
 
-                <td><a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-success">Delete</a></td>
+                <td><a asp-action="Delete" asp-route-id="@item.id" class="btn btn-success">Delete</a></td>
             </tr>
         }
     </tbody>
@@ -110,4 +80,10 @@
             }
         };
     </script>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
 }

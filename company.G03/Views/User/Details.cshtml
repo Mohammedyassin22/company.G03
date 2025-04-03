@@ -1,0 +1,15 @@
+﻿@model UserToReturnDto
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+<br />
+<br />
+
+<div>
+    <partial name="PartialView" />
+    <a asp-controller="User" asp-route-id="@Model.Id" asp-action="Edit" class="btn btn-warning">Edit</a>
+    <a asp-action="index" class="btn btn-primary">Back to list</a>
+</div>

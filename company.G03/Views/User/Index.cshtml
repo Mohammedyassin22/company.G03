@@ -1,0 +1,106 @@
+﻿@model IEnumerable<UserToReturnDto>
+@{
+    ViewData["Title"] = "User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Users</h1>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <input id="searchInput" placeholder="Search by name" class="form-control" />
+        </div>
+    </div>
+</div>
+
+<br />
+<p class="mb-0 fw-semibold">@ViewData["Message"]</p>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="usersTableBody">
+        @foreach (var item in Model)
+        {
+            <tr class="user-row" data-search="@($"{item.FirstName} {item.LastName} {item.Email} {item.UserName}".ToLower())">
+                <td>@item.Id</td>
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>
+                    @if (item.Roles != null && item.Roles.Any())
+                    {
+                        @foreach (var role in item.Roles)
+                        {
+                            <span class="badge bg-primary me-1">@role</span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="text-muted">No roles assigned</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger">Details</a>
+                </td>
+                <td><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Update</a></td>
+
+                <td><a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-success">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="noResults" class="mt-4 alert-info" style="display: none;">
+    <h4>There are no matching Users :(</h4>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.user-row');
+            let hasVisibleRows = false;
+
+            rows.forEach(row => {
+                const searchText = row.getAttribute('data-search');
+                if (searchText.includes(searchTerm)) {
+                    row.style.display = '';
+                    hasVisibleRows = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            document.getElementById('noResults').style.display = hasVisibleRows ? 'none' : 'block';
+        });
+
+        window.onload = function () {
+            let alertBox = document.getElementById("successAlert");
+            if (alertBox) {
+                alertBox.classList.add("show");
+                setTimeout(() => {
+                    alertBox.classList.remove("show");
+                    alertBox.classList.add("fade");
+                }, 5000);
+            }
+        };
+    </script>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
