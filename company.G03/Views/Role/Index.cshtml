@@ -79,11 +79,16 @@
                 }, 5000);
             }
         };
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#successAlert').fadeOut('slow');
+            }, 3000); 
+        });
     </script>
 }
 @if (TempData["SuccessMessage"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-success fade show" role="alert" id="successAlert">
         @TempData["SuccessMessage"]
     </div>
 }
