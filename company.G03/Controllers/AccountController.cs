@@ -1,9 +1,14 @@
 ﻿using company.G03.Controllers;
 using company.G03.DAL.Models;
+using company.G03.PL.Helper;
 using company.G03.PL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Email = company.G03.PL.Helper.Email;
 
 namespace company.G03.PL.Controllers
 {
@@ -111,5 +116,105 @@ namespace company.G03.PL.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+        [HttpGet]
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> SendResetPasswordURL(ForgetPassDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _usermanger.FindByEmailAsync(dto.Email);
+                if (user != null)
+                {
+                    try
+                    {
+                        var token = await _usermanger.GeneratePasswordResetTokenAsync(user);
+                        var callbackUrl = Url.Action(
+                            "ResetPassword",
+                            "Account",
+                            new { email = dto.Email, code = token },
+                            protocol: Request.Scheme);
+
+                        var email = new Email()
+                        {
+                            To = dto.Email,
+                            Subject = "Reset Your Password",
+                            Body = $"Please reset your password by clicking here: <a href='{callbackUrl}'>Reset Password</a>"
+                        };
+ 
+                       if (EmailSetting.SendEmail(email))
+                        {//دي بتشغل الدالة المسؤولة عن إرسال الايميل فعلياً:
+                         //زود Logging عشان تتأكد إن الإيميل اتبعت:
+                         //لو نجحت(true): هيعمل رسالة نجاح
+
+                            //لو فشلت(false): هيعمل رسالة خطأ
+                            Console.WriteLine($"Email sent at: {DateTime.Now}");
+                            TempData["SuccessMessage"] = "Reset link has been sent to your email";
+                        }
+                        else
+                        {
+                            TempData["ErrorMessage"] = "Failed to send email. Please try again later.";
+                            return RedirectToAction("ForgetPassword");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+                        return RedirectToAction("ForgetPassword");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Email not found");
+                }
+            }
+
+            return View("ForgetPassword", dto);
+        }
+        [HttpGet]
+        [HttpGet]
+        public ActionResult ResetPassword(string email, string code)
+        {
+            TempData["email"] = email;
+            TempData["token"] = code;
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(ResetPassDto dto)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                var email =   TempData["email"] as string;
+                var token =  TempData["token"] as string;
+                if(email == null || token == null)
+                {
+                    TempData["ErrorMessage"] = "Invalid opertation";
+                    return RedirectToAction("ForgetPassoword");
+                }
+                var user = await _usermanger.FindByEmailAsync(email);
+                if (user != null)
+                {
+                    var result = await _usermanger.ResetPasswordAsync(user, token, dto.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        TempData["SuccessMessage"] = "Password reset successfully";
+                        return RedirectToAction("SignIn");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+
+            return View(dto);
+        }
+
     }
 }
+ 

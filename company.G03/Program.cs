@@ -23,7 +23,7 @@ namespace company.G03
             builder.Services.AddScoped<IEmpRepository, EmpRepository>();
             builder.Services.AddScoped<IDeptRepository, DeptRepository>();
             builder.Services.AddScoped<DeptRepository>();
-
+            
             // 3.  яжнд AutoMapper
             builder.Services.AddAutoMapper(typeof(EmpProfile), typeof(DeptProfile));
 
@@ -42,6 +42,7 @@ namespace company.G03
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             })
+            .AddEntityFrameworkStores<CompanyDbContext>()
             .AddEntityFrameworkStores<CompanyDbContext>()
             .AddDefaultTokenProviders();
 
