@@ -1,12 +1,14 @@
 ﻿using company.G03.DAL.Models;
 using company.G03.PL.Helper;
 using company.G03.PL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace company.G03.PL.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly UserManager<AppUsers> _userManager;
